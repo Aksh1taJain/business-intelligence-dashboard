@@ -72,10 +72,42 @@ export interface ReportRow {
   updated_at: Date;
 }
 
+// ─── Phase 3: Analytics Records ───────────────────────────────────────────────
+
+export interface AnalyticsRecordRow {
+  id: string;
+  import_id: string;
+  dataset_id: string;
+  row_index: number;
+  data: Record<string, string>;
+  created_at: Date;
+}
+
+// ─── Phase 3: Import API response shapes ──────────────────────────────────────
+
+export interface ImportHistoryItem extends ImportRow {
+  dataset_name: string | null;
+  uploaded_by_name: string;
+}
+
+export interface ColumnDescriptor {
+  name: string;
+  sample: string;
+}
+
+export interface ImportPreview {
+  import_id: string;
+  filename: string;
+  columns: ColumnDescriptor[];
+  rows: Record<string, string>[];
+  total_rows: number;
+  previewing: number;
+}
+
 // ─── JWT payload ──────────────────────────────────────────────────────────────
 
 export interface JwtPayload {
-  sub: string;       // user id
+  sub: string;
   email: string;
   role: UserRole;
   iat?: number;
@@ -85,7 +117,7 @@ export interface JwtPayload {
 // ─── Extended Express Request ─────────────────────────────────────────────────
 
 export interface AuthenticatedRequest extends Request {
-  user: JwtPayload;  // populated by authenticateToken middleware
+  user: JwtPayload;
 }
 
 // ─── API response shapes ──────────────────────────────────────────────────────
@@ -104,6 +136,6 @@ export interface ApiError {
 
 export type ApiResponse<T = unknown> = ApiSuccess<T> | ApiError;
 
-// ─── Safe user (no password_hash) ────────────────────────────────────────────
+// ─── Safe user (no password_hash) ─────────────────────────────────────────────
 
 export type SafeUser = Omit<UserRow, 'password_hash'>;

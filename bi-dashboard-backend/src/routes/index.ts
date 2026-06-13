@@ -1,5 +1,6 @@
 import { Router, type RequestHandler } from 'express';
-import authRouter from './auth';
+import authRouter   from './auth';
+import importRouter from './import';
 import { sendSuccess } from '../utils/response';
 
 const router = Router();
@@ -15,11 +16,10 @@ const healthHandler: RequestHandler = (_req, res) => {
 router.get('/health', healthHandler);
 
 // ─── Feature routers ──────────────────────────────────────────────────────────
-router.use('/auth', authRouter);
+router.use('/auth',   authRouter);
+router.use('/import', importRouter);
 
-// Phase 3+ routers go here:
-// router.use('/datasets', datasetsRouter);
-// router.use('/imports',  importsRouter);
+// Phase 4+ routers:
 // router.use('/reports',  reportsRouter);
 // router.use('/analytics', analyticsRouter);
 
